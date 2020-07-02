@@ -9,4 +9,9 @@ import {PokemonsModule} from "./pokemons/pokemons.module";
   controllers: [AppController],
   providers: [AppService],
 })
+
+@Module({
+  imports: [MongooseModule.forRoot('mongodb://localhost/nest')],
+})
+
 export class AppModule {}
