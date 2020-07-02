@@ -16,4 +16,12 @@ export class PokemonsService {
     async findAll(): Promise<Pokemon[]> {
         return this.pokemonModel.find().exec();
     }
+
+    async update(pokemon){
+        await this.pokemonModel.updateOne({},pokemon);
+    }
+
+    async delete(id: string){
+        await this.pokemonModel.deleteOne({_id :id});
+    }
 }
