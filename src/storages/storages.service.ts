@@ -18,7 +18,7 @@ export class StoragesService {
     }
 
     async update(id :string, storage){
-        await this.storageModel.updateOne({_id :id},storage);
+        return this.storageModel.findOneAndUpdate({_id :id},storage, {new: true});
     }
 
     async delete(id: string){

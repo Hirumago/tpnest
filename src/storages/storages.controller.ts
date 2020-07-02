@@ -6,9 +6,7 @@ import {
     Put,
     Delete,
     Param,
-    ForbiddenException,
     HttpException,
-    HttpStatus
 } from '@nestjs/common';
 import { StoragesService } from './storages.service';
 import { StorageDto } from './dto/storage.dto';
@@ -51,14 +49,16 @@ export class StoragesController {
 
         if (
             (
-                (type1Storage === type1Pokemon || type1Storage === type2Pokemon)
-                &&
-                (type2Storage === type1Pokemon || type2Storage === type2Pokemon)
+                (
+                    (type1Storage === type1Pokemon || type1Storage === type2Pokemon)
+                    &&
+                    (type2Storage === type1Pokemon || type2Storage === type2Pokemon)
+                )
+                || type1Storage === ""
+                || type2Storage === ""
             )
-            || type1Storage === ""
-            || type2Storage === ""
-            && storage.slots.indexOf(idPokemon) === "-1"
-            && storage.slots < 24
+            && storage.slots.indexOf(idPokemon) === -1
+            && storage.slots.length < 24
         )
         {
             if (type1Storage === "" && type2Storage === "" ){
@@ -78,7 +78,9 @@ export class StoragesController {
             storage.type1 = type1Storage;
             storage.type2 = type2Storage;
 
-            await this.storagesService.update(id, storage);
+            const test = await this.storagesService.update(id, storage);
+
+            return test;
         }
 
         throw new HttpException({
