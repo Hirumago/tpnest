@@ -1,4 +1,4 @@
-export class CreatePokemonDto {
+export class PokemonDto {
     readonly rank: number;
     readonly name: string;
     readonly type1: string;

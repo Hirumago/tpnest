@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Put, Delete, Param } from '@nestjs/common';
 import { PokemonsService } from './pokemons.service';
-import { CreatePokemonDto } from './dto/create-pokemon.dto';
+import { PokemonDto } from './dto/pokemon.dto';
 import { Pokemon } from './schemas/pokemon.schema';
 
 @Controller('pokemons')
@@ -10,8 +10,8 @@ export class PokemonsController {
     }
 
     @Post()
-    async create(@Body() createPokemonDto: CreatePokemonDto) {
-        await this.pokemonsService.create(createPokemonDto);
+    async create(@Body() pokemonDto: PokemonDto) {
+        await this.pokemonsService.create(pokemonDto);
     }
 
     @Get()
@@ -20,8 +20,8 @@ export class PokemonsController {
     }
 
     @Put(':id/update')
-    async update(@Body() Pokemon:any){
-        await this.pokemonsService.update(Pokemon);
+    async update(@Param('id') id, @Body() pokemon: PokemonDto){
+        await this.pokemonsService.update(id, pokemon);
     }
 
     @Delete(':id/delete')
