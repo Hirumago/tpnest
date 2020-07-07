@@ -85,7 +85,7 @@ export class StoragesController {
             (
                 (
                     (type1Storage === type1Pokemon || type1Storage === type2Pokemon)
-                    &&
+                    ||
                     (type2Storage === type1Pokemon || type2Storage === type2Pokemon)
                 )
                 || type1Storage === ""

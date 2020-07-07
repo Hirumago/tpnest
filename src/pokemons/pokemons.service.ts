@@ -2,14 +2,14 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from './schemas/pokemon.schema';
-import { CreatePokemonDto } from './dto/create-pokemon.dto';
+import { PokemonDto } from './dto/pokemon.dto';
 
 @Injectable()
 export class PokemonsService {
     constructor(@InjectModel(Pokemon.name) private pokemonModel: Model<Pokemon>) {}
 
-    async create(createPokemonDto: CreatePokemonDto): Promise<Pokemon> {
-        const createdPokemon = new this.pokemonModel(createPokemonDto);
+    async create(PokemonDto: PokemonDto): Promise<Pokemon> {
+        const createdPokemon = new this.pokemonModel(PokemonDto);
         return createdPokemon.save();
     }
 
