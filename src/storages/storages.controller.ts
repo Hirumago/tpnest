@@ -72,6 +72,11 @@ export class StoragesController {
                     store.type1 = "";
                     store.type2 = "";
                 }
+                else if(storeSlots.length === 1){
+                    const lastPokemon = await this.pokemonService.findOne(storeSlots[0]);
+                    store.type1 = lastPokemon.type1;
+                    store.type2 = lastPokemon.type2;
+                }
 
                 store.slots = storeSlots;
 
