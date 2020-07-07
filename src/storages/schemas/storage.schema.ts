@@ -17,6 +17,9 @@ export class Storage extends Document {
 
     @Prop()
     type2: string;
+
+    @Prop()
+    owner: string;
 }
 
 export const StorageSchema = SchemaFactory.createForClass(Storage);

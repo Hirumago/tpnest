@@ -28,4 +28,8 @@ export class StoragesService {
     findOne(id:string) {
         return this.storageModel.findById(id).exec();
     }
+
+    findAllWait(idOwner:string) {
+        return this.storageModel.find({owner:idOwner}).exec();
+    }
 }

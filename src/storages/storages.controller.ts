@@ -30,14 +30,47 @@ export class StoragesController {
         return this.storagesService.findAll();
     }
 
-    @Put(':id/update')
-    async update(@Param('id') id, @Body() storage: StorageDto){
-        await this.storagesService.update(id, storage);
+    @Put(':id/update/:idOwner')
+    async update(@Param('id') id, @Param('idOwner') idOwner, @Body() storageDto: StorageDto){
+        const storage = await this.storagesService.findOne(id);
+
+        if (storage.owner !== idOwner){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "Mauvais utilisateur"
+            }, 400);
+        }
+
+        await this.storagesService.update(id, storageDto);
     }
 
-    @Put(':id/add-pokemon/:idPokemon')
-    async addPokemon(@Param('id') id, @Param('idPokemon') idPokemon){
+    @Put(':id/add-pokemon/:idPokemon/:idOwner')
+    async addPokemon(@Param('id') id, @Param('idPokemon') idPokemon, @Param('idOwner') idOwner){
         const storage = await this.storagesService.findOne(id);
+
+        if (storage.owner !== idOwner){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "Mauvais utilisateur"
+            }, 400);
+        }
+
+        const storages = await this.storagesService.findAllWait(idOwner);
+
+        let idStorage = "";
+        let storeSlots = [];
+        for (const store of storages) {
+            const storedPokemonIndex = store.slots.indexOf(idPokemon);
+            if (storedPokemonIndex !== -1) {
+                idStorage = store._id;
+                storeSlots = store.slots;
+
+                storeSlots.splice(storedPokemonIndex, 1);
+                store.slots = storeSlots;
+
+                await this.storagesService.update(idStorage, store)
+            }
+        }
 
         let type1Storage = storage.type1;
         let type2Storage = storage.type2;
@@ -78,9 +111,7 @@ export class StoragesController {
             storage.type1 = type1Storage;
             storage.type2 = type2Storage;
 
-            const test = await this.storagesService.update(id, storage);
-
-            return test;
+            return await this.storagesService.update(id, storage);
         }
 
         throw new HttpException({
@@ -89,8 +120,17 @@ export class StoragesController {
         }, 400);
     }
 
-    @Delete(':id/delete')
-    async delete(@Param('id') id): Promise<any> {
+    @Delete(':id/delete/:idOwner')
+    async delete(@Param('id') id, @Param('idOwner') idOwner) : Promise<any>{
+        const storage = await this.storagesService.findOne(id);
+
+        if (storage.owner !== idOwner){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "Mauvais utilisateur"
+            }, 400);
+        }
+
         return this.storagesService.delete(id);
     }
 }
