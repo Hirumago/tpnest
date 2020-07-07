@@ -61,7 +61,8 @@ export class StoragesController {
         let storeSlots = [];
         for (const store of storages) {
             const storedPokemonIndex = store.slots.indexOf(idPokemon);
-            if (storedPokemonIndex !== -1) {
+
+            if (storedPokemonIndex !== -1 && id != store._id) {
                 idStorage = store._id;
                 storeSlots = store.slots;
 
