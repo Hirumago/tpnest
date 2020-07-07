@@ -138,6 +138,13 @@ export class StoragesController {
             }, 400);
         }
 
+        if (storage.slots.length > 0){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "La boite n'est pas vide"
+            }, 403);
+        }
+
         return this.storagesService.delete(id);
     }
 }
