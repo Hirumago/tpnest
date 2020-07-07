@@ -67,6 +67,17 @@ export class StoragesController {
                 storeSlots = store.slots;
 
                 storeSlots.splice(storedPokemonIndex, 1);
+
+                if (storeSlots.length === 0){
+                    store.type1 = "";
+                    store.type2 = "";
+                }
+                else if(storeSlots.length === 1){
+                    const lastPokemon = await this.pokemonService.findOne(storeSlots[0]);
+                    store.type1 = lastPokemon.type1;
+                    store.type2 = lastPokemon.type2;
+                }
+
                 store.slots = storeSlots;
 
                 await this.storagesService.update(idStorage, store)
@@ -130,6 +141,13 @@ export class StoragesController {
                 // status: HttpStatus.CONFLICT,
                 error: "Mauvais utilisateur"
             }, 400);
+        }
+
+        if (storage.slots.length > 0){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "La boite n'est pas vide"
+            }, 403);
         }
 
         return this.storagesService.delete(id);
