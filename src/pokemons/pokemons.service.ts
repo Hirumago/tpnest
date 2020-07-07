@@ -17,11 +17,15 @@ export class PokemonsService {
         return this.pokemonModel.find().exec();
     }
 
+    async update(id :string, pokemon){
+        await this.pokemonModel.updateOne({_id :id},pokemon);
+    }
+
     async delete(id: string){
         await this.pokemonModel.deleteOne({_id :id});
     }
 
-    async update(id : string,pokemon){
-        await this.pokemonModel.updateOne({_id: id},pokemon);
+    findOne(id:string) {
+        return this.pokemonModel.findById(id).exec();
     }
 }
