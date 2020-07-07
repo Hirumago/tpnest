@@ -67,6 +67,12 @@ export class StoragesController {
                 storeSlots = store.slots;
 
                 storeSlots.splice(storedPokemonIndex, 1);
+
+                if (storeSlots.length === 0){
+                    store.type1 = "";
+                    store.type2 = "";
+                }
+
                 store.slots = storeSlots;
 
                 await this.storagesService.update(idStorage, store)
