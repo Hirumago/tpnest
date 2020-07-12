@@ -111,9 +111,10 @@ export class StoragesController {
                 }, 400);
             }
             else if (
-                (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
+                ((type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
                 ||
-                (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
+                (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage))
+                && type2Storage !== ""
             ){
                 throw new HttpException({
                     // status: HttpStatus.CONFLICT,
