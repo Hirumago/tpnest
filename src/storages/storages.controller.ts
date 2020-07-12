@@ -116,10 +116,12 @@ export class StoragesController {
                 (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage))
                 && type2Pokemon !== ""
             ){
-                throw new HttpException({
-                    // status: HttpStatus.CONFLICT,
-                    error: "Un des types de ce pokemon ne correspond pas à l'espace de stockage"
-                }, 400);
+                if (type2Storage !== ""){
+                    throw new HttpException({
+                        // status: HttpStatus.CONFLICT,
+                        error: "Un des types de ce pokemon ne correspond pas à l'espace de stockage"
+                    }, 400);
+                }
             }
         }
 
