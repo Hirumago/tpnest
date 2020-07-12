@@ -116,17 +116,7 @@ export class StoragesController {
             && type2Storage !== "")
 
         if (type1Storage !== "" || type2Storage !== ""){
-            if (
-                (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
-                ||
-                (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
-            ){
-                throw new HttpException({
-                    // status: HttpStatus.CONFLICT,
-                    error: "Un des types de ce pokemon ne correspond pas à l'espace de stockage"
-                }, 400);
-            }
-            else if(
+            if(
                 (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
                 &&
                 (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
@@ -134,6 +124,16 @@ export class StoragesController {
                 throw new HttpException({
                     // status: HttpStatus.CONFLICT,
                     error: "Le(s) type(s) de ce pokemon ne correspondent pas à l'espace de stockage"
+                }, 400);
+            }
+            else if (
+                (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
+                ||
+                (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
+            ){
+                throw new HttpException({
+                    // status: HttpStatus.CONFLICT,
+                    error: "Un des types de ce pokemon ne correspond pas à l'espace de stockage"
                 }, 400);
             }
         }
