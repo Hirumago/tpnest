@@ -114,7 +114,7 @@ export class StoragesController {
                 ((type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
                 ||
                 (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage))
-                && type2Storage !== ""
+                && type2Pokemon !== ""
             ){
                 throw new HttpException({
                     // status: HttpStatus.CONFLICT,
