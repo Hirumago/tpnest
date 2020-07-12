@@ -99,22 +99,6 @@ export class StoragesController {
             }, 400);
         }
 
-        console.log(type1Storage)
-        console.log(type2Storage)
-        console.log(type1Pokemon)
-        console.log(type2Pokemon)
-
-        console.log(type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
-        console.log(type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
-        console.log(type1Storage !== "")
-        console.log(type2Storage !== "")
-
-        console.log((type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
-            ||
-            (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
-            && type1Storage !== ""
-            && type2Storage !== "")
-
         if (type1Storage !== "" || type2Storage !== ""){
             if(
                 (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
