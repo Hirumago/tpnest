@@ -92,20 +92,59 @@ export class StoragesController {
         const type1Pokemon = pokemon.type1;
         const type2Pokemon = pokemon.type2;
 
-        if (
-            (
-                (
-                    (type1Storage === type1Pokemon || type1Storage === type2Pokemon)
-                    &&
-                    (type2Storage === type1Pokemon || type2Storage === type2Pokemon)
-                )
-                || type1Storage === ""
-                || type2Storage === ""
-            )
-            && storage.slots.indexOf(idPokemon) === -1
-            && storage.slots.length < 24
-        )
-        {
+        if (storage.slots.length === 24){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "Espace de stockage plein"
+            }, 400);
+        }
+
+        console.log(type1Storage)
+        console.log(type2Storage)
+        console.log(type1Pokemon)
+        console.log(type2Pokemon)
+
+        console.log(type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
+        console.log(type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
+        console.log(type1Storage !== "")
+        console.log(type2Storage !== "")
+
+        console.log((type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
+            ||
+            (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
+            && type1Storage !== ""
+            && type2Storage !== "")
+
+        if (type1Storage !== "" || type2Storage !== ""){
+            if (
+                (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
+                ||
+                (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
+            ){
+                throw new HttpException({
+                    // status: HttpStatus.CONFLICT,
+                    error: "Un des types de ce pokemon ne correspond pas à l'espace de stockage"
+                }, 400);
+            }
+            else if(
+                (type1Pokemon !== type1Storage && type1Pokemon !== type2Storage)
+                &&
+                (type2Pokemon !== type1Storage && type2Pokemon !== type2Storage)
+            ){
+                throw new HttpException({
+                    // status: HttpStatus.CONFLICT,
+                    error: "Le(s) type(s) de ce pokemon ne correspondent pas à l'espace de stockage"
+                }, 400);
+            }
+        }
+
+        if (storage.slots.indexOf(idPokemon) !== -1){
+            throw new HttpException({
+                // status: HttpStatus.CONFLICT,
+                error: "Ce pokemon est déjà dans l'espace de stockage"
+            }, 400);
+        }
+        else{
             if (type1Storage === "" && type2Storage === "" ){
                 type1Storage = type1Pokemon;
                 type2Storage = type2Pokemon;
